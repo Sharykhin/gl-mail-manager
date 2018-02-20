@@ -35,7 +35,7 @@ func SendRegisterMessage(m contracts.Mailer, to string, payload map[string]inter
 	var tpl bytes.Buffer
 	t.Execute(&tpl, p)
 
-	if os.Getenv("APP_MAIL") == "TEST_FAIL" {
+	if os.Getenv("TEST_FAIL") == "OK" {
 		log.Println("Test failed message")
 		return err
 	}

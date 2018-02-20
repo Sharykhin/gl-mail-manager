@@ -1,6 +1,4 @@
 .idea
 tmp
-src/mail/tmp
-src/mail/logs/*.log
-src/mail/cmd/server/*.pem
+logs/*.log
 .env

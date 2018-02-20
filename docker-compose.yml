@@ -1,0 +1,38 @@
+version: "2.1"
+
+services:
+  gl-mail-manager-golang:
+    container_name: gl-mail-manager-golang
+    image: gl-mail-manager-golang
+    links:
+      - gl-mail-manager-rabbitmq
+    volumes:
+      - .:/go/src/github.com/Sharykhin/gl-mail-manager
+    build:
+      #args:
+      #  app_env: ${APP_ENV:-dev}
+      #  app_test: ${APP_MAIL:-OK}
+      context: .
+      dockerfile: .docker/golang/Dockerfile
+    env_file:
+      - .docker/golang/.env
+    depends_on:
+      gl-mail-manager-rabbitmq:
+        condition: service_healthy
+
+  gl-mail-manager-rabbitmq:
+    container_name: gl-mail-manager-rabbitmq
+    image: gl-mail-manager-rabbitmq
+    build:
+      context: .
+      dockerfile: .docker/rabbitmq/Dockerfile
+    ports:
+      - 5672:5672
+      - 15672:15672
+    env_file:
+      - .docker/rabbitmq/.env
+    healthcheck:
+      test:   ["CMD", "curl", "-f", "127.0.0.1:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
