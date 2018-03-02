@@ -1,0 +1,2 @@
+docker-serve:
+	MG_API_KEY="key-3c03f2d382df4184ecd9ee60e58fbff7" MG_DOMAIN="sandboxad94a90d88814c648febc87b5b026118.mailgun.org" MG_PUBLIC_API_KEY="pubkey-5933f91a99becbdd97ecaec90dda2985" MG_URL="https://api.mailgun.net/v3" AMPQ_ADDRESS="amqp://gl-mail-manager-rabbitmq:5672" TEST_FAIL=false APP_ENV=dev go run main.go

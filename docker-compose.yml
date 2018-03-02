@@ -9,9 +9,6 @@ services:
     volumes:
       - .:/go/src/github.com/Sharykhin/gl-mail-manager
     build:
-      #args:
-      #  app_env: ${APP_ENV:-dev}
-      #  app_test: ${APP_MAIL:-OK}
       context: .
       dockerfile: .docker/golang/Dockerfile
     env_file:
