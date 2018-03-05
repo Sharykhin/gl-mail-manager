@@ -14,5 +14,8 @@ docker-serve-dev:
 docker-serve-test:
 	MG_API_KEY=$(ENV_MG_API_KEY) MG_DOMAIN=$(ENV_MG_DOMAIN) MG_PUBLIC_API_KEY=$(ENV_MG_PUBLIC_API_KEY) MG_URL=$(ENV_MG_URL) AMPQ_ADDRESS="amqp://gl-mail-manager-rabbitmq:5672" TEST_FAIL=OK APP_ENV=test GRPC_PUBLIC_KEY=server.crt GRPC_SERVER_ADDRESS="gl-mail-grpc-server-golang:50051" go run main.go
 
+test:
+	GO_TEST=running go test ./... -v
+
 lint:
 	gometalinter ./...

@@ -38,7 +38,7 @@ func sendRegisterMail(mm entity.MailMessage, body []byte) {
 	if err != nil {
 		logger.Log.LogError("could not sent register email: " + string(body[:]))
 		fmt.Printf("Could not sent register email: %s\n", err)
-		_, err := grpc.CreateFailMail(mm, err.Error())
+		_, err := grpc.CreateFailedMail(mm, err.Error())
 		if err != nil {
 			fmt.Printf("Could not create a new failed mail row on grpc server: %v", err)
 		}

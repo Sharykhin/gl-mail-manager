@@ -16,6 +16,10 @@ import (
 var client api.FailMailClient
 
 func init() {
+	env := os.Getenv("GO_TEST")
+	if env == "running" {
+		return
+	}
 	cert := os.Getenv("GRPC_PUBLIC_KEY")
 	if cert == "" {
 		log.Fatal("Env variable GRPC_PUBLIC_KEY is not specified")
@@ -38,18 +42,22 @@ func init() {
 	client = api.NewFailMailClient(conn)
 }
 
-// CreateFailMail creates a new row of failed mail
-func CreateFailMail(mm entity.MailMessage, reason string) (*api.FailMailResponse, error) {
+// CreateFailedMail creates a new row of failed mail
+func CreateFailedMail(mm entity.MailMessage, reason string) (*api.FailMailResponse, error) {
+	// TODO: pass context as parameter
 	ctx := context.Background()
+	// TODO: test case on error
 	p, err := json.Marshal(mm.Payload)
 	if err != nil {
 		return nil, fmt.Errorf("could not marshal: %v", err)
 	}
 
+	//TODO: think about using factories, just to try it
 	fmr := api.FailMailRequest{
 		Action:  mm.Action,
 		Payload: p,
 		Reason:  reason,
 	}
+
 	return client.CreateFailMail(ctx, &fmr)
 }
