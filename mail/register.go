@@ -1,4 +1,4 @@
-package mails
+package mail
 
 import (
 	"bytes"
@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/Sharykhin/gl-mail-manager/contracts"
+	"github.com/pkg/errors"
 )
 
 const MAIL_FROM = "Siarhei <siarhei.sharykhin@itechart-group.com>"
@@ -17,27 +18,26 @@ type registerPayload struct {
 	Token string
 }
 
-// TODO: is it okay that we pass payload as map of interface values?
+var testFail string
+
+// SendRegisterMessage send a register mail
 func SendRegisterMessage(m contracts.Mailer, to string, payload map[string]interface{}) error {
-	// TODO: should we use register specific struct?
-	p := registerPayload{
+	rp := registerPayload{
 		Name:  payload["name"].(string),
 		Token: payload["token"].(string),
 	}
 
-	dir, _ := os.Getwd()
-
-	t, err := template.New("register.html").ParseFiles(dir + "/templates/register.html")
+	t, err := template.New("register.html").ParseFiles("templates/register.html")
 	if err != nil {
 		return fmt.Errorf("could not parse template: %v", err)
 	}
 
 	var tpl bytes.Buffer
-	t.Execute(&tpl, p)
+	t.Execute(&tpl, rp)
 
-	if os.Getenv("TEST_FAIL") == "OK" {
-		log.Println("Test failed message")
-		return err
+	if testFail == "OK" {
+		fmt.Println("Test failed message")
+		return errors.New("count not connect to mailgun")
 	}
 
 	id, err := m.SendMail(
@@ -53,4 +53,8 @@ func SendRegisterMessage(m contracts.Mailer, to string, payload map[string]inter
 
 	log.Println("ID: ", id)
 	return nil
+}
+
+func init() {
+	testFail = os.Getenv("TEST_FAIL")
 }

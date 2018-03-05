@@ -19,6 +19,7 @@ func connect() (*amqp.Connection, error) {
 	return conn, nil
 }
 
+// Listen establishes connection to a rabbitmq queue and starts listening income messages
 func Listen(queue string) (<-chan amqp.Delivery, error) {
 	conn, err := connect()
 	if err != nil {
