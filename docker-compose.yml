@@ -1,4 +1,8 @@
-version: "2.1"
+version: "3"
+
+networks:
+  ethernet:
+    external: true
 
 services:
   gl-mail-manager-golang:
@@ -14,8 +18,9 @@ services:
     env_file:
       - .docker/golang/.env
     depends_on:
-      gl-mail-manager-rabbitmq:
-        condition: service_healthy
+      - gl-mail-manager-rabbitmq
+    networks:
+      - ethernet
 
   gl-mail-manager-rabbitmq:
     container_name: gl-mail-manager-rabbitmq
@@ -28,8 +33,5 @@ services:
       - 15672:15672
     env_file:
       - .docker/rabbitmq/.env
-    healthcheck:
-      test:   ["CMD", "curl", "-f", "127.0.0.1:15672"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    networks:
+      - ethernet

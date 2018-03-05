@@ -9,6 +9,8 @@ Requirements:
 Usage:
 -----
 
+First of all get public key that should be used for grpc server.
+
 1. Make a build:
 ```bash
 docker-compose build

@@ -1,12 +1,11 @@
 package grpc
 
 import (
-	"log"
-	"os"
-
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/Sharykhin/gl-mail-grpc"
 	"github.com/Sharykhin/gl-mail-manager/entity"

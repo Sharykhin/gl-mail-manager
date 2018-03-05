@@ -8,6 +8,6 @@ RUN go get .
 
 RUN go install github.com/Sharykhin/gl-mail-manager
 
-#ENTRYPOINT /go/bin/gl-mail-manager
+ENTRYPOINT /go/bin/gl-mail-manager
 
-CMD tail -f /dev/null
+#CMD tail -f /dev/null
