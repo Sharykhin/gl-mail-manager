@@ -39,3 +39,8 @@ To test failing mails use the following env variable:
 docker-compose run -e TEST_FAIL=OK gl-mail-manager-golang
 ```
 This will imitate some sort of failing and write it into a log file.
+
+Example:
+```bash
+curl -u guest:guest -H "content-type:application/json" -X POST -d'{"properties":{"delivery_mode":2},"routing_key":"mail","payload":"{\"action\":\"register\", \"payload\":{\"name\":\"serg\", \"to\":\"siarhei.sharykhin@itechart-group.com\", \"token\":\"12345\"}}","payload_encoding":"string"}' http://localhost:15672/api/exchanges/%2f/amq.default/publish
+```
